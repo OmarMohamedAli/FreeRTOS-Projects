@@ -1,0 +1,66 @@
+
+#include "LED.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+TaskHandle_t BlueLedToggleHandler = NULL;
+TaskHandle_t RedLedToggleHandler = NULL;
+TaskHandle_t GreenLedToggleHandler = NULL;
+
+
+void BlueLedToggleTask(void *p)
+{
+	LED_INIT(B_LED);
+	
+	for(;;)
+	{
+		LED_TOG(B_LED);
+		vTaskDelay(1000);
+	}
+}
+
+void RedLedToggleTask(void *p)
+{
+	LED_INIT(B_LED);
+	
+	for(;;)
+	{
+		LED_TOG(R_LED);
+		vTaskDelay(500);
+	}
+}
+
+void GreenLedToggleTask(void *p)
+{
+	LED_INIT(B_LED);
+	
+	for(;;)
+	{
+		LED_TOG(G_LED);
+		vTaskDelay(100);
+	}
+}
+
+
+
+
+
+int main ( )
+{
+	LED_INIT(B_LED);
+	LED_INIT(R_LED);
+	LED_INIT(G_LED);
+	
+	xTaskCreate(BlueLedToggleTask , "task1" , 200 , (void *)0 , 1 , &BlueLedToggleHandler);   // priority of Idle task always equal to Zero [by default]
+	xTaskCreate(RedLedToggleTask , "task1" , 200 , (void *)0 , 1 , &RedLedToggleHandler);   // priority of Idle task always equal to Zero [by default]
+	xTaskCreate(GreenLedToggleTask , "task1" , 200 , (void *)0 , 1 , &GreenLedToggleHandler);   // priority of Idle task always equal to Zero [by default]
+
+	
+	vTaskStartScheduler();
+	while(1)
+	{
+		
+		
+	}
+	return 0;
+}
